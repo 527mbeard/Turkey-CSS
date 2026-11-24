@@ -57,311 +57,465 @@
   SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -->
    <style>
-      /* PAGE SETUP
-   Keep these three rules in the live-coding copy. */
-      html,
-      body {
-         overflow: hidden;
-         background: #fee;
-      }
 
-      /* Reuse the palette below. Both sides use vmin, so the square scales
-   with the shorter side of the browser window. top and left put its
-   corner at the center. translate pulls it back by half its own size. */
-      .cartoon {
-         --brown1: #753;
-         --brown2: #975;
-         --orange1: orange;
-         --orange2: darkorange;
-         width: 80vmin;
-         height: 80vmin;
-         position: absolute;
-         top: 50%;
-         left: 50%;
-         transform: translate(-50%, -50%);
-      }
+/* =================================
+   FROZEN WINTER WONDERLAND TURKEY
+   Elsa-inspired winter aesthetic
+================================= */
 
-      /* Absolute positioning lets the parts overlap. Offsets use the nearest
-   positioned ancestor. Most parts use .cartoon. The face uses .head
-   because its parts are nested inside it. border-box keeps borders
-   inside the declared width and height. */
-      .cartoon div {
-         position: absolute;
-         box-sizing: border-box;
-      }
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&display=swap');
 
-      /* STEP 1 | BODY
-   Width and height are both 40% of the square canvas. Set the color
-   and refresh to see the square, then use border-radius to round it. */
-      .body {
-         width: 40%;
-         height: 40%;
-         background: var(--brown1);
-         color: var(--brown1);
-         border-radius: 50%;
-         /* left measures from the canvas. translate measures from the body.
-    Together they center the body horizontally. */
-         top: 40%;
-         left: 50%;
-         transform: translate(-50%, 0);
-         /* Two sharp shadows shrink and shift down to add small details where
-    the legs meet the body. They pick up the CSS color. */
-         box-shadow:
-            -4vmin 14.5vmin 0 -13vmin,
-            4vmin 14.5vmin 0 -13vmin
-      }
+html, body {
+    overflow: hidden;
+    margin: 0;
+    min-height: 100%;
+    background:
+        radial-gradient(ellipse at 50% 35%, #ffffff 0%, #eaf8ff 45%, #c5e5f5 100%);
+}
 
-      /* STEP 2 | WINGS
-   Rounded and sharp corners shape the wing. Use the top-right corner
-   as the pivot so the wing tilts from where it meets the body. */
-      .wing {
-         height: 30%;
-         width: 20%;
-         background: var(--brown2);
-         border-radius: 100% 0% 100% 5%;
-         top: 41%;
-         left: 23%;
-         transform-origin: top right;
-         transform: rotate(-10deg);
-      }
+/* WINTER COLOR PALETTE */
 
-      /* The + selects the wing immediately after the first one. left: auto
-   clears the shared left offset so right can place it. scaleX(-1)
-   mirrors both the shape and its tilt. */
-      .wing+.wing {
-         left: auto;
-         right: 43%;
-         transform: scaleX(-1) rotate(-10deg);
-      }
+.cartoon {
+    --ice1: #b9e6f5;
+    --ice2: #83cce8;
+    --ice3: #4c9fca;
+    --ice4: #dff6ff;
+    --lavender: #c8b9ed;
+    --silver: #e9f5fc;
+    --white: #ffffff;
+    --deep: #4d83a8;
 
-      /* STEP 3 | HEAD, NECK AND FACE
-   Start with a circle. clip-path cuts a flat edge where the hat sits.
-   The clip extends below the circle to leave room for the neck. */
-      .head {
-         width: 19%;
-         height: 19%;
-         border-radius: 50%;
-         background: var(--brown2);
-         top: 15%;
-         left: 50%;
-         transform: translate(-50%, 0);
-         clip-path: polygon(0% 20%, 100% 20%, 100% 500%, 0% 500%);
-      }
+    width: 80vmin;
+    height: 80vmin;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: float 4s ease-in-out infinite;
+    filter: drop-shadow(0 15px 20px #5689a522);
+}
 
-      /* content: "" creates a box for the neck. It starts 80% down the head
-   so the two shapes overlap. The same brown fills the join, and the
-   last two corner radii round off the bottom. Refresh here. */
-      .head::before {
-         content: "";
-         display: block;
-         position: absolute;
-         width: 40%;
-         height: 120%;
-         background: var(--brown2);
-         top: 80%;
-         left: 50%;
-         transform: translate(-50%, 0);
-         border-radius: 0 0 100% 100% / 30%;
-      }
+.cartoon div {
+    position: absolute;
+    box-sizing: border-box;
+}
 
-      /* Draw one black dot 2.5vmin left of center. With zero blur, its shadow
-   makes a second dot 5vmin to the right, so the eyes are evenly spaced. */
-      .eye {
-         width: 10%;
-         height: 10%;
-         background: black;
-         border-radius: 50%;
-         top: 45%;
-         left: 50%;
-         transform: translate(-50%, 0) translate(-2.5vmin, 0);
-         box-shadow: 5vmin 0
-      }
+/* FLOATING MAGIC */
 
-      /* The top and bottom borders are transparent. They taper the orange
-   left border into a triangle that points to the right. */
-      .beak {
-         width: 4vmin;
-         height: 3vmin;
-         border-left: 4vmin solid var(--orange1);
-         border-top: 1.5vmin solid transparent;
-         border-bottom: 1.5vmin solid transparent;
-         top: 60%;
-         left: 50%;
-      }
+@keyframes float {
+    0%, 100% {
+        translate: 0 0;
+    }
+    50% {
+        translate: 0 -9px;
+    }
+}
 
-      /* The snood starts at the same center line as the beak. Shifting it
-   left by its full width places it just to the left of that line. */
-      .red {
-         width: 2.5vmin;
-         height: 6vmin;
-         background: #d00;
-         border-radius: 100% / 100% 0 100% 100%;
-         top: 60%;
-         left: 50%;
-         transform: translate(-100%, 0);
-      }
+/* SNOWY FEATHER FAN */
 
-      /* STEP 4 | LEGS AND TOES
-   Start both legs at the center and shift them 4vmin in opposite
-   directions. The repeating gradient adds thin stripes over the orange. */
-      .leg {
-         width: 3%;
-         height: 21%;
-         background: var(--orange1);
-         top: 79%;
-         left: 50%;
-         transform: translate(-50%, 0) translate(-4vmin, 0);
-         border-radius: 5vmin / 50%;
-         background-image:
-            repeating-linear-gradient(transparent 0 10%, rgba(0, 0, 0, 0.1) 0 11%);
-      }
+.tail {
+    width: 10%;
+    height: 40%;
+    top: 30%;
+    left: 50%;
+    border-radius: 100% / 30% 30% 170% 170%;
+    transform-origin: 50% 100%;
+    transform: translate(-50%, 0);
+    background: linear-gradient(
+        90deg,
+        #75b9dc,
+        #e7faff,
+        #a7dff2
+    );
+    border: 2px solid #ffffff;
+    box-shadow:
+        inset 0 0 12px #ffffff,
+        0 0 12px #a4dff7;
+}
 
-      .leg+.leg {
-         transform: translate(-50%, 0) translate(4vmin, 0);
-      }
+/* Alternating icy shades */
 
-      /* Each leg gets two toes from the same rule. Both pivot at the top
-   center so they stay attached as they rotate. The final rule turns
-   the second toe the opposite way so the toes spread apart. */
-      .leg::before,
-      .leg::after {
-         content: "";
-         display: block;
-         position: absolute;
-         width: 80%;
-         height: 35%;
-         left: 50%;
-         bottom: 0;
-         background: var(--orange1);
-         border-radius: 5vmin;
-         transform-origin: 50% 0;
-         transform: translate(-50%, 0) rotate(30deg);
-      }
+.tail:nth-child(odd) {
+    background: linear-gradient(
+        90deg,
+        #83c8e7,
+        #f4fdff,
+        #a6d9ef
+    );
+}
 
-      .leg::after {
-         transform: translate(-50%, 0) rotate(-30deg);
-      }
+.tail:nth-child(even) {
+    background: linear-gradient(
+        90deg,
+        #a99bdc,
+        #f8f4ff,
+        #b8dcf5
+    );
+}
 
-      /* STEP 5 | HAT
-   Start with a wide, short oval for the brim. The inset shadow stays
-   inside the crown and paints the lighter band across the bottom. */
-      .hat-bottom {
-         width: 35%;
-         height: 8%;
-         border-radius: 50%;
-         background: black;
-         top: 15%;
-         left: 50%;
-         transform: translate(-50%, 0);
-      }
+/* Snowflake-like feather details */
 
-      .hat-top {
-         width: 16%;
-         height: 20%;
-         background: black;
-         box-shadow: inset 0 -7vmin #fff3;
-         border-radius: 100% / 230% 230% 0% 0%;
-         top: 0;
-         left: 50%;
-         transform: translate(-50%, 0);
-      }
+.tail::before {
+    content: "✧";
+    position: absolute;
+    color: white;
+    font-size: 3vmin;
+    top: 20%;
+    left: 30%;
+    text-shadow: 0 0 8px #ffffff;
+}
 
-      /* A small bordered box makes the buckle. Its position is measured
-   from the crown, so it follows the hat if the hat moves. */
-      .hat-top::before {
-         content: "";
-         display: block;
-         position: absolute;
-         width: 40%;
-         height: 2vmin;
-         border: 1vmin solid #772;
-         border-radius: 1vmin;
-         bottom: 3.25vmin;
-         left: 50%;
-         transform: translate(-50%, 0);
-      }
+.tail::after {
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 35%;
+    background: #ffffffaa;
+    top: 35%;
+    left: 50%;
+    border-radius: 50%;
+}
 
-      /* STEP 6 | ALL 13 TAIL FEATHERS
-   All 13 feathers overlap until their angles differ. The feather divs
-   come first in the HTML, so the rest of the turkey paints over them. */
-      .tail {
-         width: 10%;
-         height: 40%;
-         background: var(--orange1);
-         border-radius: 100% / 30% 30% 170% 170%;
-         /* Put the pivot at the center of the bottom edge so the tips fan out
-    while the bases stay together. */
-         transform-origin: 50% 100%;
-         top: 30%;
-         left: 50%;
-         transform: translate(-50%, 0);
-      }
+/* FEATHER FAN SHAPE */
 
-      /* nth-child counts all children of .cartoon in HTML order. Since the
-   feathers come first, odd and even alternate the feather colors. */
-      .tail:nth-child(odd) {
-         background: var(--orange1);
-      }
+.tail:nth-child(1) {
+    transform: translate(-50%, 0) rotate(0deg);
+}
+.tail:nth-child(2) {
+    transform: translate(-50%, 0) rotate(17deg);
+}
+.tail:nth-child(3) {
+    transform: translate(-50%, 0) rotate(34deg);
+}
+.tail:nth-child(4) {
+    transform: translate(-50%, 0) rotate(51deg);
+}
+.tail:nth-child(5) {
+    transform: translate(-50%, 0) rotate(68deg);
+}
+.tail:nth-child(6) {
+    transform: translate(-50%, 0) rotate(85deg);
+}
+.tail:nth-child(7) {
+    transform: translate(-50%, 0) rotate(102deg);
+}
+.tail:nth-child(8) {
+    transform: translate(-50%, 0) rotate(-17deg);
+}
+.tail:nth-child(9) {
+    transform: translate(-50%, 0) rotate(-34deg);
+}
+.tail:nth-child(10) {
+    transform: translate(-50%, 0) rotate(-51deg);
+}
+.tail:nth-child(11) {
+    transform: translate(-50%, 0) rotate(-68deg);
+}
+.tail:nth-child(12) {
+    transform: translate(-50%, 0) rotate(-85deg);
+}
+.tail:nth-child(13) {
+    transform: translate(-50%, 0) rotate(-102deg);
+}
 
-      .tail:nth-child(even) {
-         background: var(--orange2);
-      }
+/* BODY - SOFT SNOWBALL */
 
-      /* Each transform replaces the base transform, so keep translate to
-   center every feather on the same line. One upright feather and pairs
-   of equal positive and negative angles make a symmetric fan.
-   Add the 17deg rule first and toggle transform-origin in DevTools. */
-      .tail:nth-child(1) {
-         transform: translate(-50%, 0) rotate(0);
-      }
+.body {
+    width: 43%;
+    height: 43%;
+    background: linear-gradient(
+        145deg,
+        #f5fdff,
+        #c6e9f8 65%,
+        #a5d3ec
+    );
+    border-radius: 50%;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border: 3px solid white;
+    box-shadow:
+        inset -10px -12px 22px #83bcd955,
+        inset 10px 10px 20px white,
+        0 8px 22px #80b8d755,
+        -4vmin 14.5vmin 0 -13vmin,
+        4vmin 14.5vmin 0 -13vmin;
+    z-index: 3;
+}
 
-      .tail:nth-child(2) {
-         transform: translate(-50%, 0) rotate(17deg);
-      }
+/* Crystal belly */
 
-      .tail:nth-child(3) {
-         transform: translate(-50%, 0) rotate(34deg);
-      }
+.body::before {
+    content: "✧";
+    position: absolute;
+    font-size: 9vmin;
+    color: white;
+    text-shadow:
+        0 0 8px #ffffff,
+        0 0 18px #83cce8;
+    top: 25%;
+    left: 37%;
+}
 
-      .tail:nth-child(4) {
-         transform: translate(-50%, 0) rotate(51deg);
-      }
+/* WINGS */
 
-      .tail:nth-child(5) {
-         transform: translate(-50%, 0) rotate(68deg);
-      }
+.wing {
+    height: 30%;
+    width: 20%;
+    background: linear-gradient(
+        135deg,
+        #e9faff,
+        #9ed6ee,
+        #b6a9df
+    );
+    border-radius: 100% 0% 100% 5%;
+    top: 41%;
+    left: 23%;
+    transform-origin: top right;
+    transform: rotate(-10deg);
+    border: 2px solid white;
+    box-shadow:
+        inset 0 0 12px white,
+        0 4px 12px #80b9d755;
+    z-index: 4;
+}
 
-      .tail:nth-child(6) {
-         transform: translate(-50%, 0) rotate(85deg);
-      }
+.wing + .wing {
+    left: auto;
+    right: 43%;
+    transform: scaleX(-1) rotate(-10deg);
+}
 
-      .tail:nth-child(7) {
-         transform: translate(-50%, 0) rotate(102deg);
-      }
+/* HEAD */
 
-      .tail:nth-child(8) {
-         transform: translate(-50%, 0) rotate(-17deg);
-      }
+.head {
+    width: 21%;
+    height: 21%;
+    border-radius: 50%;
+    background: linear-gradient(
+        140deg,
+        #f9feff,
+        #c7e9f8,
+        #a6d6ef
+    );
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border: 3px solid white;
+    box-shadow:
+        inset -5px -5px 15px #8bbbd755,
+        inset 5px 5px 12px white,
+        0 0 15px #ffffff;
+    z-index: 6;
+    clip-path: none;
+}
 
-      .tail:nth-child(9) {
-         transform: translate(-50%, 0) rotate(-34deg);
-      }
+/* NECK */
 
-      .tail:nth-child(10) {
-         transform: translate(-50%, 0) rotate(-51deg);
-      }
+.head::before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 40%;
+    height: 120%;
+    background: linear-gradient(
+        90deg,
+        #b9e0f3,
+        #f6fdff,
+        #b9e0f3
+    );
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border-radius: 0 0 100% 100% / 30%;
+    z-index: -1;
+}
 
-      .tail:nth-child(11) {
-         transform: translate(-50%, 0) rotate(-68deg);
-      }
+/* BIG SPARKLY EYES */
 
-      .tail:nth-child(12) {
-         transform: translate(-50%, 0) rotate(-85deg);
-      }
+.eye {
+    width: 11%;
+    height: 12%;
+    background: #31516f;
+    border-radius: 50%;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, 0) translate(-2.5vmin, 0);
+    box-shadow:
+        5vmin 0 #31516f,
+        0 0 5px #ffffff;
+    z-index: 5;
+}
 
-      .tail:nth-child(13) {
-         transform: translate(-50%, 0) rotate(-102deg);
-      }
+.eye::before {
+    content: "";
+    position: absolute;
+    width: 38%;
+    height: 38%;
+    background: white;
+    border-radius: 50%;
+    top: 12%;
+    left: 17%;
+    box-shadow: 5vmin 0 white;
+}
+
+/* ICY BLUE BEAK */
+
+.beak {
+    width: 4vmin;
+    height: 3vmin;
+    border-left: 4vmin solid #83b9e0;
+    border-top: 1.5vmin solid transparent;
+    border-bottom: 1.5vmin solid transparent;
+    top: 60%;
+    left: 50%;
+    filter: drop-shadow(0 2px 2px #477ca3);
+    z-index: 5;
+}
+
+/* LAVENDER CHEEK DETAIL */
+
+.red {
+    width: 2.5vmin;
+    height: 5vmin;
+    background: #c8a9e9;
+    border-radius: 100% / 100% 0 100% 100%;
+    top: 60%;
+    left: 50%;
+    transform: translate(-100%, 0);
+    z-index: 5;
+}
+
+/* LITTLE ICY FEET */
+
+.leg {
+    width: 3%;
+    height: 21%;
+    background: linear-gradient(
+        90deg,
+        #91c8e8,
+        #e2f6ff,
+        #8bbde0
+    );
+    top: 79%;
+    left: 50%;
+    transform: translate(-50%, 0) translate(-4vmin, 0);
+    border-radius: 5vmin / 50%;
+    box-shadow: 0 0 8px #ffffff;
+    z-index: 2;
+}
+
+.leg + .leg {
+    transform: translate(-50%, 0) translate(4vmin, 0);
+}
+
+.leg::before,
+.leg::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 80%;
+    height: 35%;
+    left: 50%;
+    bottom: 0;
+    background: #b7a9e2;
+    border-radius: 5vmin;
+    transform-origin: 50% 0;
+    transform: translate(-50%, 0) rotate(30deg);
+}
+
+.leg::after {
+    transform: translate(-50%, 0) rotate(-30deg);
+}
+
+/* ELSA'S ICE CROWN */
+
+.hat-bottom {
+    width: 35%;
+    height: 8%;
+    border-radius: 50%;
+    background: linear-gradient(
+        90deg,
+        #8bbfe5,
+        #ffffff,
+        #b9a8e7
+    );
+    border: 2px solid white;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    box-shadow: 0 0 12px #ffffff;
+    z-index: 8;
+}
+
+.hat-top {
+    width: 23%;
+    height: 19%;
+    background: linear-gradient(
+        135deg,
+        #e9faff,
+        #8ec9e9,
+        #b7a6e4
+    );
+    clip-path: polygon(
+        0 100%,
+        12% 40%,
+        28% 70%,
+        50% 0,
+        72% 70%,
+        88% 40%,
+        100% 100%
+    );
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border-radius: 15%;
+    filter: drop-shadow(0 0 8px white);
+    z-index: 9;
+}
+
+/* SNOWFLAKE JEWEL ON CROWN */
+
+.hat-top::before {
+    content: "✧";
+    display: block;
+    position: absolute;
+    font-size: 5vmin;
+    color: white;
+    text-shadow:
+        0 0 5px white,
+        0 0 12px #72c8f0;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+    /* WINTER WONDERLAND BACKGROUND */
+
+body::before {
+    content: "❄       ✧          ❄       ✧";
+    position: fixed;
+    top: 8%;
+    left: 5%;
+    width: 90%;
+    color: white;
+    font-size: 5vmin;
+    letter-spacing: 5vmin;
+    text-shadow: 0 0 12px #75c8f0;
+    pointer-events: none;
+    animation: sparkle 3s ease-in-out infinite alternate;
+}
+
+@keyframes sparkle {
+    from {
+        opacity: .35;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(12px);
+    }
+}
    </style>
 </head>
 
